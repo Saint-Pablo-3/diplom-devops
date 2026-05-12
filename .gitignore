@@ -1,0 +1,21 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+terraform.tfvars
+terraform.tfvars.json
+
+# Mac
+.DS_Store
+
+# Kubernetes secrets (если будут)
+*.kubeconfig
+# secrets
+*.json
+keys/
+*.key
+*.pem
+*.kubeconfig
