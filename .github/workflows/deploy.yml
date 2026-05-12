@@ -1,0 +1,49 @@
+name: Deploy to Kubernetes
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: cr.yandex/crpnq3ci2q59h2s03lt7
+  IMAGE_NAME: test-app
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker login to Yandex Registry
+        run: |
+          echo '${{ secrets.YC_KEY }}' > key.json
+
+          docker login \
+            --username json_key \
+            --password-stdin \
+            cr.yandex < key.json
+
+      - name: Build image
+        run: |
+          docker build \
+            -t cr.yandex/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest \
+            ./app
+
+      - name: Push image
+        run: |
+          docker push \
+            cr.yandex/${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+
+      - name: Setup kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f app/k8-s/
+          kubectl rollout restart deployment test-app
