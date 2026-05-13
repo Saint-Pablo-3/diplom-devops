@@ -15,7 +15,6 @@ This project demonstrates a complete DevOps pipeline including:
 
 ## Architecture
 
-## flowchart LR
     GitHub --> GitHubActions
     GitHubActions --> DockerBuild
     DockerBuild --> YandexCR
