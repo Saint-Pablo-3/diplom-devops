@@ -48,7 +48,7 @@ jobs:
 
       - name: Get kubeconfig
         run: |
-          yc managed-kubernetes cluster get-credentials diplom-k8s --external --force
+          yc managed-kubernetes cluster get-credentials cat3un5ijuksch6ihsn1 --external --force
 
       - name: Setup kubectl
         uses: azure/setup-kubectl@v4
