@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker buildx build \
+          docker buildx build \git add .
             --platform linux/amd64 \
             -t cr.yandex/${{ env.REGISTRY_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -t cr.yandex/${{ env.REGISTRY_ID }}/${{ env.IMAGE_NAME }}:latest \
@@ -42,7 +42,7 @@ jobs:
       - name: Configure kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+          echo "${{ secrets.KUBE_CONFIG_B64 }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
 
       - name: Update deployment image
