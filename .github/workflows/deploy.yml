@@ -30,7 +30,7 @@ jobs:
 
       - name: Build and Push Docker image
         run: |
-          docker buildx build \git add .
+          docker buildx build \
             --platform linux/amd64 \
             -t cr.yandex/${{ env.REGISTRY_ID }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -t cr.yandex/${{ env.REGISTRY_ID }}/${{ env.IMAGE_NAME }}:latest \
@@ -52,4 +52,4 @@ jobs:
 
       - name: Verify rollout
         run: |
-          kubectl rollout status deployment/test-app
+          kubectl rollout status deployment/test-app --timeout=120s
